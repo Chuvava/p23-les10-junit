@@ -1,17 +1,12 @@
 package com.saucedemo;
 
 import com.saucedemo.data.ProductsSorting;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.stream.Stream;
-
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
 public class ProductsSortingTest extends BaseTest {
 
@@ -28,13 +23,11 @@ public class ProductsSortingTest extends BaseTest {
     @ParameterizedTest
     public void productsCanBeSortedCorrectly(ProductsSorting productsSorting, List<String> expectedSequenceOfProducts) {
 
-        loginWithDefaultCredentials();
-        checkThatUserIsLoggedIn();
+        loginPage.loginWithDefaultCredentials();
+        productsPage.checkThatProductsPageIsOpen();
 
-        $(".product_sort_container").selectOption(productsSorting.toString());
+        productsPage.selectSortingOptionForPage(productsSorting);
 
-
-        List<String> actualSequenceOfProducts = $$(".inventory_item_name ").texts();
-        Assertions.assertIterableEquals(expectedSequenceOfProducts, actualSequenceOfProducts);
+        productsPage.checkThatProductsOrderOnPageMatches(expectedSequenceOfProducts);
     }
 }

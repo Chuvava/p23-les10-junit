@@ -1,14 +1,20 @@
 package com.saucedemo;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import com.saucedemo.pages.CartPage;
+import com.saucedemo.pages.LoginPage;
+import com.saucedemo.pages.ProductsPage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class BaseTest {
+
+    protected LoginPage loginPage = new LoginPage();
+    protected ProductsPage productsPage = new ProductsPage();
+    protected CartPage cartPage = new CartPage();
+
 
     @BeforeAll
     protected static void beforeAll() {
@@ -22,17 +28,4 @@ public class BaseTest {
         open("");
     }
 
-    protected void login(String userName, String password) {
-        $("#user-name").setValue(userName);
-        $("#password").setValue(password);
-        $("#login-button").click();
-    }
-
-    protected void loginWithDefaultCredentials() {
-        login("standard_user", "secret_sauce");
-    }
-
-    protected void checkThatUserIsLoggedIn() {
-        $(".app_logo").shouldHave(Condition.exactText("Swag Labs"));
-    }
 }
